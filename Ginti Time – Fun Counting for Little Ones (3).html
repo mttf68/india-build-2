@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ginti Time – Fun Counting for Little Ones</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF6DD;--ink:#2B2350;--card:#fff;--l1:#FF9F1C;--l1s:#FFE2B0;--l2:#16A5A3;--l2s:#BDEEEC;--l3:#E83F8C;--l3s:#FFCDE3;--l4:#6C4BD6;--l4s:#DCD2FF;--ok:#2FB04A;--no:#E5484D;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241B4A;--ink:#FFF3D6;--card:#352A66;--l1s:#5A4220;--l2s:#1C4B52;--l3s:#5E2A4D;--l4s:#3F3480}}
+:root[data-theme="dark"]{--bg:#241B4A;--ink:#FFF3D6;--card:#352A66;--l1s:#5A4220;--l2s:#1C4B52;--l3s:#5E2A4D;--l4s:#3F3480}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Baloo 2","Trebuchet MS",system-ui,sans-serif;font-size:18px;line-height:1.4}
+.hero{text-align:center;padding:36px 16px 20px;background:repeating-linear-gradient(90deg,#FF9F1C 0 40px,#E83F8C 40px 80px,#16A5A3 80px 120px,#6C4BD6 120px 160px) top/100% 10px no-repeat}
+.hero h1{font-size:clamp(2.6rem,9vw,5rem);margin:10px 0 0;font-weight:800;letter-spacing:.5px}
+.hero h1 span:nth-child(1){color:var(--l1)}.hero h1 span:nth-child(2){color:var(--l3)}.hero h1 span:nth-child(3){color:var(--l2)}.hero h1 span:nth-child(4){color:var(--l4)}
+.hero p{max-width:34ch;margin:6px auto 18px;font-size:1.2rem}
+.nums{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.nums a{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:1.6rem;text-decoration:none;box-shadow:0 4px 0 rgba(0,0,0,.2)}
+.nums a:nth-child(1){background:var(--l1)}.nums a:nth-child(2){background:var(--l2)}.nums a:nth-child(3){background:var(--l3)}.nums a:nth-child(4){background:var(--l4)}.nums a:nth-child(5){background:#1F8A3B}
+.nums a:focus-visible,button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
+.nums-note{font-size:.95rem;opacity:.8}
+main{max-width:820px;margin:0 auto;padding:0 14px 40px}
+section{border-radius:32px;padding:22px 18px 26px;margin:22px 0;background:var(--s);border:4px solid var(--c)}
+section h2{margin:0;font-size:1.9rem;color:var(--c);font-weight:800}
+section .sub{margin:0 0 14px;font-size:1.05rem}
+.badge{display:inline-block;background:var(--c);color:#fff;border-radius:999px;padding:2px 16px;font-weight:700;font-size:1rem;margin-bottom:6px}
+.play{background:var(--card);border-radius:24px;padding:18px 12px;text-align:center}
+.q{font-size:1.4rem;font-weight:700;margin:0 0 8px}
+.stage{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;min-height:90px;font-size:2.4rem;line-height:1.1}
+.grp{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;max-width:210px;padding:10px;border-radius:20px;background:var(--s)}
+.grp.pick{cursor:pointer;border:4px dashed var(--c);background:var(--card)}
+.op{font-size:3rem;font-weight:800;color:var(--c);padding:0 6px}
+.opts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+button{font:inherit;font-weight:800;font-size:2rem;min-width:84px;min-height:72px;border:0;border-radius:22px;background:var(--c);color:#fff;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25);touch-action:manipulation}
+button:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.fb{min-height:2.2em;font-size:1.3rem;font-weight:700;margin:10px 0 2px}
+.fb.good{color:var(--ok)}.fb.bad{color:var(--no)}
+.foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;gap:8px;flex-wrap:wrap}
+.stars{font-size:1.5rem;letter-spacing:2px}
+.next{font-size:1.1rem;min-height:48px;min-width:0;padding:4px 20px;display:none}
+.ok{animation:pop .4s}
+@keyframes pop{50%{transform:scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.ok{animation:none}html{scroll-behavior:auto}}
+footer{text-align:center;padding:10px 16px 30px;font-size:.95rem;opacity:.85}
+.view{display:none}.view.on{display:block}
+.menu{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:10px 0 20px}
+.card{display:block;text-decoration:none;color:#fff;background:var(--c);border-radius:28px;padding:20px 14px;text-align:center;box-shadow:0 6px 0 rgba(0,0,0,.2)}
+.card:focus-visible,.back:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
+.card i{display:block;font-style:normal;font-size:3rem}.card b{display:block;font-size:1.9rem}.card span{font-size:1.05rem}
+.back{display:inline-block;margin-bottom:8px;color:var(--c);font-weight:800;text-decoration:none}
+.bar{height:14px;border-radius:9px;background:var(--s);overflow:hidden}.bar i{display:block;height:100%;background:var(--c)}
+.hint{background:var(--s);border-radius:16px;padding:8px 14px;margin:8px auto;max-width:480px;text-align:left}
+.og{min-width:110px;min-height:84px;font-size:1.6rem;padding:8px 12px;line-height:1.1}
+.lv{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:4px;margin-top:14px}
+.lv button{font-size:.95rem;min-width:0;min-height:36px;padding:0;border-radius:10px;box-shadow:none}
+.lv button.dn{background:var(--ok)}.lv button.cur{outline:3px solid var(--ink)}.lv button:disabled{opacity:.35;cursor:not-allowed}
+.langs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 14px}
+.langs button{font-size:1.05rem;min-width:0;min-height:44px;padding:4px 14px;border-radius:14px;box-shadow:none;background:var(--card);color:var(--ink);border:3px solid var(--l1)}
+.langs button[aria-pressed=true]{background:var(--l1);color:#fff}
+:root{--bg:#F5F2EA;--ink:#343A4A;--card:#FFFDF8;--l1:#B9772E;--l1s:#F1E5D2;--l2:#3F8683;--l2s:#DDEBE9;--l3:#B0607F;--l3s:#F0E0E7;--l4:#6B5FA8;--l4s:#E4E0F0;--ok:#3E8E55;--no:#B5484B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1F2430;--ink:#E7E4DA;--card:#2A3040;--l1s:#3A3226;--l2s:#243838;--l3s:#3A2D34;--l4s:#322E48}}
+:root[data-theme="dark"]{--bg:#1F2430;--ink:#E7E4DA;--card:#2A3040;--l1s:#3A3226;--l2s:#243838;--l3s:#3A2D34;--l4s:#322E48}
+.hero{background:none;padding-top:26px}
+.hero h1{font-size:clamp(2rem,7vw,3.2rem);font-weight:700}
+.hero h1 span:nth-child(n){color:var(--ink)}
+section{border-width:2px}section h2{font-weight:700}
+button,.card{box-shadow:0 2px 0 rgba(0,0,0,.12)}
+button:active{transform:none}
+.ok{animation:none}
+.card i{font-size:2.2rem}.card b{font-size:1.6rem;font-weight:700}
+.card em{display:block;font-style:normal;margin-top:4px;min-height:1.4em;font-size:1rem}
+.lang{position:relative;display:flex;justify-content:flex-end;margin:0 0 10px}
+.lang>button{font-size:.95rem;min-width:0;min-height:38px;padding:2px 12px;border-radius:12px;background:transparent;color:var(--ink);border:1.5px solid var(--ink);box-shadow:none;font-weight:600;opacity:.85}
+.lang ul{position:absolute;top:100%;inset-inline-end:0;z-index:5;list-style:none;margin:4px 0 0;padding:6px;background:var(--card);border:1.5px solid var(--ink);border-radius:14px;min-width:170px;max-height:60vh;overflow:auto}
+.lang ul[hidden]{display:none}
+.lang li button{display:block;width:100%;text-align:start;font-size:1.05rem;min-width:0;min-height:42px;padding:4px 12px;border-radius:10px;background:transparent;color:var(--ink);box-shadow:none;font-weight:600}
+.lang li button[aria-selected=true]{background:var(--l2);color:#fff}
+.play{position:relative}
+.pop{position:absolute;left:0;right:0;top:30%;text-align:center;font-size:3.2rem;pointer-events:none;animation:starpop 1.2s ease-out forwards}
+@keyframes starpop{0%{transform:scale(.3);opacity:0}25%{transform:scale(1.2);opacity:1}60%{transform:scale(1);opacity:1}100%{transform:translateY(-40px);opacity:0}}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (prefers-reduced-motion:reduce){.pop{animation:none}.shake{animation:none}}
+.lang{gap:6px}
+#nb{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:6;width:44px;height:44px;min-width:0;min-height:0;padding:0;font-size:1.2rem;border-radius:50%;background:var(--card);color:var(--ink);border:1.5px solid var(--ink);box-shadow:none;opacity:.85}
+#nb[aria-pressed=true]{background:var(--l2);color:#fff;opacity:1}
+#nt{position:fixed;right:12px;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:6;max-width:240px;background:var(--card);color:var(--ink);border:1.5px solid var(--ink);border-radius:12px;padding:6px 10px;font-size:.9rem}
+#nt[hidden]{display:none}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div style="font-size:1.8rem;opacity:.75" aria-hidden="true">🥭 🪁 🪔 🐘</div>
+  <h1><span>Gin</span><span>ti&nbsp;</span><span>Ti</span><span>me!</span></h1>
+</header>
+
+<main>
+  <div class="view on" id="v-home"><div class="lang"><button id="sb" aria-haspopup="listbox" aria-expanded="false" aria-label="Script" hidden>Aa ▾</button><button id="lb" aria-haspopup="listbox" aria-expanded="false">🌐 <span id="ln">English</span> ▾</button><ul id="langs" role="listbox" hidden></ul><ul id="scripts" role="listbox" hidden></ul></div><p class="q" style="text-align:center" data-t="ask"></p><div class="menu">
+    <a class="card" href="#add" style="--c:var(--l1)"><i>➕</i><b data-t="add"></b><span data-n="50"></span><em data-rw="add"></em></a>
+    <a class="card" href="#sub" style="--c:var(--l3)"><i>➖</i><b data-t="sub"></b><span data-n="50"></span><em data-rw="sub"></em></a>
+    <a class="card" href="#match" style="--c:var(--l2)"><i>🎯</i><b data-t="match"></b><span data-n="20"></span><em data-rw="match"></em></a>
+  </div></div>
+  <section class="view" id="v-add" style="--c:var(--l1);--s:var(--l1s)">
+    <a class="back" href="#home" data-t="menu"></a><br>
+    <h2 data-t="add"></h2>
+    <div class="play" data-k="add"></div>
+  </section>
+  <section class="view" id="v-sub" style="--c:var(--l3);--s:var(--l3s)">
+    <a class="back" href="#home" data-t="menu"></a><br>
+    <h2 data-t="sub"></h2>
+    <div class="play" data-k="sub"></div>
+  </section>
+  <section class="view" id="v-match" style="--c:var(--l2);--s:var(--l2s)">
+    <a class="back" href="#home" data-t="menu"></a><br>
+    <h2 data-t="match"></h2>
+    <div class="play" data-k="match"></div>
+  </section>
+</main>
+<button id="nb" aria-pressed="false" aria-label="Narrator" title="Narrator">🔇</button><div id="nt" role="status" aria-live="polite" hidden></div>
+<footer data-t="foot"></footer>
+
+<script>
+const I={
+en:{ask:"What do you want to play?",add:"Addition",sub:"Subtraction",match:"Match & Count",lv:"Level",menu:"Menu",hint:"Hint",next:"Next",try:"Almost! Try again.",fin:"You finished every level!",pr:["Great job!","Super!","Well done!"],foot:"Count together and clap for every try! 👏",
+q0:"How many? Tap the matching number.",q1:"Find the box with {n}.",q2:"Find the box with the same number.",q3:"Which one looks the same?",
+h1:"Start at {a}. Count on {b} with your fingers.",h2:"Start at {a}. Count back {b} with your fingers.",h3:"Make 10 first: {a} + {x} = 10. Then add {y} more.",h4:"Tens: {p}. Ones: {q}. Then put them together.",h5:"Step 1: {p}. Step 2: do {q} to your answer.",h6:"Think backwards: work out {p}.",m0:"Touch each picture and count out loud.",m1:"Count the pictures in each box.",m2:"Count the first group, then each box.",m3:"Look at the colour and the shape."},
+ta:{ask:"என்ன விளையாட விரும்புகிறாய்?",add:"கூட்டல்",sub:"கழித்தல்",match:"பொருத்து & எண்ணு",lv:"நிலை",menu:"மெனு",hint:"குறிப்பு",next:"அடுத்து",try:"கிட்டத்தட்ட! மீண்டும் முயற்சி செய்.",fin:"எல்லா நிலைகளையும் முடித்துவிட்டாய்!",pr:["அருமை!","சூப்பர்!","நன்று!"],foot:"சேர்ந்து எண்ணி, ஒவ்வொரு முயற்சிக்கும் கைதட்டுங்கள்! 👏",
+q0:"எத்தனை? பொருந்தும் எண்ணைத் தொடு.",q1:"{n} உள்ள பெட்டியைக் கண்டுபிடி.",q2:"அதே எண்ணிக்கை உள்ள பெட்டியைக் கண்டுபிடி.",q3:"எது அதே போல் இருக்கிறது?",
+h1:"{a}-இல் தொடங்கு. விரல்களால் {b} எண்ணி முன்னே செல்.",h2:"{a}-இல் தொடங்கு. விரல்களால் {b} பின்னோக்கி எண்ணு.",h3:"முதலில் 10 ஆக்கு: {a} + {x} = 10. பிறகு இன்னும் {y} கூட்டு.",h4:"பத்துகள்: {p}. ஒன்றுகள்: {q}. பிறகு சேர்த்துக் கொள்.",h5:"படி 1: {p}. படி 2: உன் விடையுடன் {q} செய்.",h6:"பின்னோக்கி யோசி: {p} கண்டுபிடி.",m0:"ஒவ்வொரு படத்தையும் தொட்டு சத்தமாக எண்ணு.",m1:"ஒவ்வொரு பெட்டியிலும் உள்ள படங்களை எண்ணு.",m2:"முதல் குழுவை எண்ணு, பிறகு ஒவ்வொரு பெட்டியையும் எண்ணு.",m3:"நிறத்தையும் வடிவத்தையும் பார்."},
+te:{ask:"ఏం ఆడాలనుకుంటున్నావు?",add:"కూడిక",sub:"తీసివేత",match:"జతచేయి & లెక్కపెట్టు",lv:"స్థాయి",menu:"మెనూ",hint:"సూచన",next:"తరువాత",try:"దాదాపు! మళ్లీ ప్రయత్నించు.",fin:"అన్ని స్థాయిలు పూర్తి చేశావు!",pr:["బాగుంది!","సూపర్!","శెభాష్!"],foot:"కలిసి లెక్కపెట్టి, ప్రతి ప్రయత్నానికి చప్పట్లు కొట్టండి! 👏",
+q0:"ఎన్ని? సరిపోయే సంఖ్యను తాకు.",q1:"{n} ఉన్న పెట్టెను కనుగొను.",q2:"అదే సంఖ్య ఉన్న పెట్టెను కనుగొను.",q3:"ఏది అలాగే ఉంది?",
+h1:"{a} నుండి మొదలుపెట్టు. వేళ్లతో {b} ముందుకు లెక్కపెట్టు.",h2:"{a} నుండి మొదలుపెట్టు. వేళ్లతో {b} వెనక్కి లెక్కపెట్టు.",h3:"ముందు 10 చేయి: {a} + {x} = 10. తర్వాత ఇంకా {y} కూడు.",h4:"పదులు: {p}. ఒకట్లు: {q}. తర్వాత కలుపు.",h5:"దశ 1: {p}. దశ 2: నీ జవాబుతో {q} చేయి.",h6:"వెనుకకు ఆలోచించు: {p} లెక్కించు.",m0:"ప్రతి బొమ్మను తాకి గట్టిగా లెక్కపెట్టు.",m1:"ప్రతి పెట్టెలో బొమ్మలను లెక్కపెట్టు.",m2:"మొదటి గుంపును లెక్కపెట్టు, తర్వాత ప్రతి పెట్టెను.",m3:"రంగును, ఆకారాన్ని చూడు."},
+ur:{ask:"آپ کون سا کھیل کھیلنا چاہتے ہیں؟",add:"جمع",sub:"تفریق",match:"ملاؤ اور گنو",lv:"درجہ",menu:"مینو",hint:"اشارہ",next:"اگلا",try:"تقریباً! دوبارہ کوشش کرو۔",fin:"تم نے تمام درجے مکمل کر لیے!",pr:["شاباش!","زبردست!","بہت خوب!"],foot:"مل کر گنو اور ہر کوشش پر تالی بجاؤ! 👏",
+q0:"کتنے ہیں؟ صحیح عدد پر ٹیپ کرو۔",q1:"{n} والا ڈبہ ڈھونڈو۔",q2:"اتنی ہی تعداد والا ڈبہ ڈھونڈو۔",q3:"کون سا بالکل ایک جیسا ہے؟",
+h1:"{a} سے شروع کرو۔ انگلیوں سے {b} آگے گنو۔",h2:"{a} سے شروع کرو۔ انگلیوں سے {b} پیچھے گنو۔",h3:"پہلے 10 بناؤ: {a} + {x} = 10۔ پھر {y} اور جمع کرو۔",h4:"دہائیاں: {p}۔ اکائیاں: {q}۔ پھر دونوں کو ملاؤ۔",h5:"پہلا قدم: {p}۔ دوسرا قدم: اپنے جواب پر {q} کرو۔",h6:"الٹا سوچو: {p} نکالو۔",m0:"ہر تصویر کو چھوؤ اور اونچی آواز میں گنو۔",m1:"ہر ڈبے میں تصویریں گنو۔",m2:"پہلا گروپ گنو، پھر ہر ڈبہ گنو۔",m3:"رنگ اور شکل دیکھو۔"},
+pa:{ask:"ਤੁਸੀਂ ਕਿਹੜੀ ਖੇਡ ਖੇਡਣੀ ਹੈ?",add:"ਜੋੜ",sub:"ਘਟਾਓ",match:"ਮਿਲਾਓ ਤੇ ਗਿਣੋ",lv:"ਪੱਧਰ",menu:"ਮੀਨੂ",hint:"ਇਸ਼ਾਰਾ",next:"ਅਗਲਾ",try:"ਲਗਭਗ! ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",fin:"ਤੁਸੀਂ ਸਾਰੇ ਪੱਧਰ ਪੂਰੇ ਕਰ ਲਏ!",pr:["ਸ਼ਾਬਾਸ਼!","ਬਹੁਤ ਵਧੀਆ!","ਕਮਾਲ!"],foot:"ਮਿਲ ਕੇ ਗਿਣੋ ਤੇ ਹਰ ਕੋਸ਼ਿਸ਼ ’ਤੇ ਤਾੜੀ ਮਾਰੋ! 👏",
+q0:"ਕਿੰਨੇ ਹਨ? ਸਹੀ ਅੰਕ ਨੂੰ ਛੂਹੋ।",q1:"{n} ਵਾਲਾ ਡੱਬਾ ਲੱਭੋ।",q2:"ਇੰਨੀ ਹੀ ਗਿਣਤੀ ਵਾਲਾ ਡੱਬਾ ਲੱਭੋ।",q3:"ਕਿਹੜਾ ਬਿਲਕੁਲ ਇੱਕੋ ਜਿਹਾ ਹੈ?",
+h1:"{a} ਤੋਂ ਸ਼ੁਰੂ ਕਰੋ। ਉਂਗਲਾਂ ਨਾਲ {b} ਅੱਗੇ ਗਿਣੋ।",h2:"{a} ਤੋਂ ਸ਼ੁਰੂ ਕਰੋ। ਉਂਗਲਾਂ ਨਾਲ {b} ਪਿੱਛੇ ਗਿਣੋ।",h3:"ਪਹਿਲਾਂ 10 ਬਣਾਓ: {a} + {x} = 10। ਫਿਰ {y} ਹੋਰ ਜੋੜੋ।",h4:"ਦਹਾਈਆਂ: {p}। ਇਕਾਈਆਂ: {q}। ਫਿਰ ਦੋਵਾਂ ਨੂੰ ਮਿਲਾਓ।",h5:"ਪਹਿਲਾ ਕਦਮ: {p}। ਦੂਜਾ ਕਦਮ: ਆਪਣੇ ਜਵਾਬ ਨਾਲ {q} ਕਰੋ।",h6:"ਉਲਟਾ ਸੋਚੋ: {p} ਕੱਢੋ।",m0:"ਹਰ ਤਸਵੀਰ ਨੂੰ ਛੂਹੋ ਤੇ ਉੱਚੀ ਗਿਣੋ।",m1:"ਹਰ ਡੱਬੇ ਵਿੱਚ ਤਸਵੀਰਾਂ ਗਿਣੋ।",m2:"ਪਹਿਲਾ ਸਮੂਹ ਗਿਣੋ, ਫਿਰ ਹਰ ਡੱਬਾ ਗਿਣੋ।",m3:"ਰੰਗ ਅਤੇ ਸ਼ਕਲ ਵੇਖੋ।"},
+ml:{ask:"ഏത് കളി കളിക്കണം?",add:"സങ്കലനം",sub:"വ്യവകലനം",match:"യോജിപ്പിക്കൂ & എണ്ണൂ",lv:"ലെവൽ",menu:"മെനു",hint:"സൂചന",next:"അടുത്തത്",try:"ഏകദേശം ശരി! വീണ്ടും ശ്രമിക്കൂ.",fin:"എല്ലാ ലെവലും പൂർത്തിയാക്കി!",pr:["കൊള്ളാം!","സൂപ്പർ!","അടിപൊളി!"],foot:"ഒരുമിച്ച് എണ്ണൂ, ഓരോ ശ്രമത്തിനും കൈയടിക്കൂ! 👏",
+q0:"എത്ര? ചേരുന്ന സംഖ്യ തൊടൂ.",q1:"{n} ഉള്ള പെട്ടി കണ്ടെത്തൂ.",q2:"അതേ എണ്ണമുള്ള പെട്ടി കണ്ടെത്തൂ.",q3:"ഏതാണ് അതുപോലെ ഇരിക്കുന്നത്?",
+h1:"{a}-ൽ തുടങ്ങൂ. വിരലുകൾ കൊണ്ട് {b} മുന്നോട്ട് എണ്ണൂ.",h2:"{a}-ൽ തുടങ്ങൂ. വിരലുകൾ കൊണ്ട് {b} പിന്നോട്ട് എണ്ണൂ.",h3:"ആദ്യം 10 ആക്കൂ: {a} + {x} = 10. പിന്നെ {y} കൂടി കൂട്ടൂ.",h4:"പത്തുകൾ: {p}. ഒന്നുകൾ: {q}. പിന്നെ രണ്ടും കൂട്ടിച്ചേർക്കൂ.",h5:"ഘട്ടം 1: {p}. ഘട്ടം 2: നിന്റെ ഉത്തരത്തോട് {q} ചെയ്യൂ.",h6:"പിന്നോട്ട് ചിന്തിക്കൂ: {p} കണ്ടെത്തൂ.",m0:"ഓരോ ചിത്രവും തൊട്ട് ഉറക്കെ എണ്ണൂ.",m1:"ഓരോ പെട്ടിയിലെയും ചിത്രങ്ങൾ എണ്ണൂ.",m2:"ആദ്യത്തെ കൂട്ടം എണ്ണൂ, പിന്നെ ഓരോ പെട്ടിയും.",m3:"നിറവും ആകൃതിയും നോക്കൂ."},
+kn:{ask:"ಯಾವ ಆಟ ಆಡಬೇಕು?",add:"ಕೂಡುವಿಕೆ",sub:"ಕಳೆಯುವಿಕೆ",match:"ಹೊಂದಿಸು & ಎಣಿಸು",lv:"ಹಂತ",menu:"ಮೆನು",hint:"ಸುಳಿವು",next:"ಮುಂದೆ",try:"ಸ್ವಲ್ಪದರಲ್ಲಿ ತಪ್ಪಿತು! ಮತ್ತೆ ಪ್ರಯತ್ನಿಸು.",fin:"ಎಲ್ಲಾ ಹಂತಗಳನ್ನು ಮುಗಿಸಿದೆ!",pr:["ಭೇಷ್!","ಸೂಪರ್!","ಶಬ್ಬಾಶ್!"],foot:"ಒಟ್ಟಿಗೆ ಎಣಿಸಿ, ಪ್ರತಿ ಪ್ರಯತ್ನಕ್ಕೂ ಚಪ್ಪಾಳೆ ತಟ್ಟಿ! 👏",
+q0:"ಎಷ್ಟು? ಹೊಂದುವ ಸಂಖ್ಯೆಯನ್ನು ಮುಟ್ಟು.",q1:"{n} ಇರುವ ಪೆಟ್ಟಿಗೆಯನ್ನು ಹುಡುಕು.",q2:"ಅಷ್ಟೇ ಸಂಖ್ಯೆ ಇರುವ ಪೆಟ್ಟಿಗೆಯನ್ನು ಹುಡುಕು.",q3:"ಯಾವುದು ಹಾಗೆಯೇ ಇದೆ?",
+h1:"{a} ರಿಂದ ಶುರು ಮಾಡು. ಬೆರಳುಗಳಿಂದ {b} ಮುಂದಕ್ಕೆ ಎಣಿಸು.",h2:"{a} ರಿಂದ ಶುರು ಮಾಡು. ಬೆರಳುಗಳಿಂದ {b} ಹಿಂದಕ್ಕೆ ಎಣಿಸು.",h3:"ಮೊದಲು 10 ಮಾಡು: {a} + {x} = 10. ನಂತರ ಇನ್ನೂ {y} ಕೂಡಿಸು.",h4:"ಹತ್ತುಗಳು: {p}. ಒಂದುಗಳು: {q}. ನಂತರ ಎರಡನ್ನೂ ಸೇರಿಸು.",h5:"ಹಂತ 1: {p}. ಹಂತ 2: ನಿನ್ನ ಉತ್ತರಕ್ಕೆ {q} ಮಾಡು.",h6:"ಹಿಮ್ಮುಖವಾಗಿ ಯೋಚಿಸು: {p} ಕಂಡುಹಿಡಿ.",m0:"ಪ್ರತಿ ಚಿತ್ರವನ್ನು ಮುಟ್ಟಿ ಗಟ್ಟಿಯಾಗಿ ಎಣಿಸು.",m1:"ಪ್ರತಿ ಪೆಟ್ಟಿಗೆಯಲ್ಲಿರುವ ಚಿತ್ರಗಳನ್ನು ಎಣಿಸು.",m2:"ಮೊದಲ ಗುಂಪನ್ನು ಎಣಿಸು, ನಂತರ ಪ್ರತಿ ಪೆಟ್ಟಿಗೆಯನ್ನು.",m3:"ಬಣ್ಣ ಮತ್ತು ಆಕಾರ ನೋಡು."},
+bn:{ask:"কোন খেলা খেলতে চাও?",add:"যোগ",sub:"বিয়োগ",match:"মেলাও ও গোনো",lv:"স্তর",menu:"মেনু",hint:"ইঙ্গিত",next:"পরের",try:"প্রায় হয়েছে! আবার চেষ্টা করো।",fin:"তুমি সব স্তর শেষ করেছ!",pr:["দারুণ!","সুপার!","শাবাশ!"],foot:"একসাথে গোনো আর প্রতিটি চেষ্টায় হাততালি দাও! 👏",
+q0:"কতগুলো? মিল থাকা সংখ্যাটি ছোঁও।",q1:"{n} আছে এমন বাক্সটি খোঁজো।",q2:"একই সংখ্যা আছে এমন বাক্সটি খোঁজো।",q3:"কোনটা হুবহু একই রকম?",
+h1:"{a} থেকে শুরু করো। আঙুল দিয়ে {b} এগিয়ে গোনো।",h2:"{a} থেকে শুরু করো। আঙুল দিয়ে {b} পিছিয়ে গোনো।",h3:"আগে 10 বানাও: {a} + {x} = 10। তারপর আরও {y} যোগ করো।",h4:"দশক: {p}। একক: {q}। তারপর দুটো মিলিয়ে নাও।",h5:"ধাপ 1: {p}। ধাপ 2: তোমার উত্তরের সাথে {q} করো।",h6:"উল্টো করে ভাবো: {p} বের করো।",m0:"প্রতিটি ছবি ছুঁয়ে জোরে গোনো।",m1:"প্রতিটি বাক্সের ছবিগুলো গোনো।",m2:"প্রথম দলটা গোনো, তারপর প্রতিটি বাক্স।",m3:"রং আর আকার দেখো।"},
+gu:{ask:"તમારે કઈ રમત રમવી છે?",add:"સરવાળો",sub:"બાદબાકી",match:"જોડો અને ગણો",lv:"સ્તર",menu:"મેનૂ",hint:"સંકેત",next:"આગળ",try:"લગભગ! ફરી પ્રયત્ન કરો.",fin:"તમે બધા સ્તર પૂરા કર્યા!",pr:["શાબાશ!","ખૂબ સરસ!","વાહ!"],foot:"સાથે ગણો અને દરેક પ્રયત્ન પર તાળી પાડો! 👏",
+q0:"કેટલા છે? બંધબેસતા અંક પર ટેપ કરો.",q1:"{n} વાળું ખાનું શોધો.",q2:"એટલી જ સંખ્યાવાળું ખાનું શોધો.",q3:"કયું બિલકુલ સરખું છે?",
+h1:"{a} થી શરૂ કરો. આંગળીઓથી {b} આગળ ગણો.",h2:"{a} થી શરૂ કરો. આંગળીઓથી {b} પાછળ ગણો.",h3:"પહેલા 10 બનાવો: {a} + {x} = 10. પછી {y} વધુ ઉમેરો.",h4:"દશકા: {p}. એકમ: {q}. પછી બંનેને ભેગા કરો.",h5:"પગલું 1: {p}. પગલું 2: તમારા જવાબ સાથે {q} કરો.",h6:"ઊંધું વિચારો: {p} શોધો.",m0:"દરેક ચિત્રને અડો અને મોટેથી ગણો.",m1:"દરેક ખાનામાં ચિત્રો ગણો.",m2:"પહેલું જૂથ ગણો, પછી દરેક ખાનું ગણો.",m3:"રંગ અને આકાર જુઓ."}
+};
+const LN=[['en','English','English'],['ta','தமிழ்','Tamil'],['te','తెలుగు','Telugu'],['ur','اردو','Urdu'],['pa','ਪੰਜਾਬੀ','Punjabi'],['ml','മലയാളം','Malayalam'],['kn','ಕನ್ನಡ','Kannada'],['bn','বাংলা','Bengali'],['gu','ગુજરાતી','Gujarati']];
+const R={
+pa:{ask:"Tusi kehdi khed khedni hai?",add:"Jor",sub:"Ghatao",match:"Milao te Ginno",lv:"Pattar",menu:"Menu",hint:"Ishara",next:"Agla",try:"Lagbhag! Dubara koshish karo.",fin:"Tusi saare pattar poore kar laye!",pr:["Shabash!","Bahut vadhiya!","Kamaal!"],foot:"Mil ke ginno te har koshish te taali maaro! 👏",
+q0:"Kinne han? Sahi ank nu chhuo.",q1:"{n} wala dabba labho.",q2:"Inni hi ginti wala dabba labho.",q3:"Kehda bilkul ikko jeha hai?",
+h1:"{a} ton shuru karo. Ungalan naal {b} agge ginno.",h2:"{a} ton shuru karo. Ungalan naal {b} pichhe ginno.",h3:"Pehlan 10 banao: {a} + {x} = 10. Phir {y} hor jodo.",h4:"Dahaiyan: {p}. Ikaiyan: {q}. Phir dovan nu milao.",h5:"Pehla kadam: {p}. Dooja kadam: apne jawab naal {q} karo.",h6:"Ulta socho: {p} kaddho.",m0:"Har tasveer nu chhuo te ucchi ginno.",m1:"Har dabbe vich tasveeran ginno.",m2:"Pehla samooh ginno, phir har dabba ginno.",m3:"Rang te shakal vekho."},
+ta:{ask:"Enna vilaiyaada virumbugiraai?",add:"Koottal",sub:"Kazhittal",match:"Poruththu & Ennu",lv:"Nilai",menu:"Menu",hint:"Kurippu",next:"Adutthu",try:"Kittathatta! Meendum muyarchi sei.",fin:"Ella nilaigalaiyum mudiththuvittaai!",pr:["Arumai!","Super!","Nandru!"],foot:"Serndhu ennunga, ovvoru muyarchikkum kaithattunga! 👏",
+q0:"Eththanai? Porunthum ennaith thodu.",q1:"{n} ulla pettiyaik kandupidi.",q2:"Adhe ennikkai ulla pettiyaik kandupidi.",q3:"Edhu adhe pol irukkiradhu?",
+h1:"{a}-il thodangu. Viralgalaal {b} enni munne sel.",h2:"{a}-il thodangu. Viralgalaal {b} pinnokki ennu.",h3:"Mudhalil 10 aakku: {a} + {x} = 10. Piragu innum {y} koottu.",h4:"Paththugal: {p}. Ondrugal: {q}. Piragu serththuk kol.",h5:"Padi 1: {p}. Padi 2: un vidaiyudan {q} sei.",h6:"Pinnokki yosi: {p} kandupidi.",m0:"Ovvoru padaththaiyum thottu saththamaaga ennu.",m1:"Ovvoru pettiyilum ulla padangalai ennu.",m2:"Mudhal kuzhuvai ennu, piragu ovvoru pettiyaiyum.",m3:"Niraththaiyum vadivaththaiyum paar."},
+te:{ask:"Em aadaalanukuntunnaavu?",add:"Koodika",sub:"Teesivetha",match:"Jatacheyi & Lekkapettu",lv:"Sthaayi",menu:"Menu",hint:"Soochana",next:"Taruvaata",try:"Daadaapu! Malli prayatninchu.",fin:"Anni sthaayilu poorti chesaavu!",pr:["Baagundi!","Super!","Shabhash!"],foot:"Kalisi lekkapetti, prati prayatnaaniki chappattu kottandi! 👏",
+q0:"Enni? Saripoye sankhyanu taaku.",q1:"{n} unna pettenu kanugonu.",q2:"Ade sankhya unna pettenu kanugonu.",q3:"Edi alaage undi?",
+h1:"{a} nunchi modalupettu. Velltho {b} munduku lekkapettu.",h2:"{a} nunchi modalupettu. Velltho {b} venakki lekkapettu.",h3:"Mundu 10 cheyyi: {a} + {x} = 10. Tarvaata inkaa {y} koodu.",h4:"Padulu: {p}. Okatlu: {q}. Tarvaata kalupu.",h5:"Dasha 1: {p}. Dasha 2: nee javaabuto {q} cheyyi.",h6:"Venukaku aalochinchu: {p} lekkinchu.",m0:"Prati bommanu taaki gattigaa lekkapettu.",m1:"Prati pettelo bommalanu lekkapettu.",m2:"Modati gumpunu lekkapettu, tarvaata prati pettenu.",m3:"Rangunu, aakaaraanni choodu."},
+ur:{ask:"Aap konsa khel khelna chahte hain?",add:"Jama",sub:"Tafreeq",match:"Milao aur Gino",lv:"Darja",menu:"Menu",hint:"Ishara",next:"Agla",try:"Taqreeban! Dobara koshish karo.",fin:"Tum ne tamam darje mukammal kar liye!",pr:["Shabash!","Zabardast!","Bohat khoob!"],foot:"Mil kar gino aur har koshish par taali bajao! 👏",
+q0:"Kitne hain? Sahi adad par tap karo.",q1:"{n} wala dabba dhoondo.",q2:"Utni hi tadaad wala dabba dhoondo.",q3:"Kaun sa bilkul aik jaisa hai?",
+h1:"{a} se shuru karo. Ungliyon se {b} aage gino.",h2:"{a} se shuru karo. Ungliyon se {b} peechay gino.",h3:"Pehle 10 banao: {a} + {x} = 10. Phir {y} aur jama karo.",h4:"Dahaiyan: {p}. Ikaiyan: {q}. Phir dono ko milao.",h5:"Pehla qadam: {p}. Doosra qadam: apne jawab par {q} karo.",h6:"Ulta socho: {p} nikalo.",m0:"Har tasveer ko chhuo aur unchi awaz mein gino.",m1:"Har dabbe mein tasveerein gino.",m2:"Pehla group gino, phir har dabba gino.",m3:"Rang aur shakal dekho."},
+ml:{ask:"Ethu kali kalikkanam?",add:"Sankalanam",sub:"Vyavakalanam",match:"Yojippikku & Ennu",lv:"Level",menu:"Menu",hint:"Soochana",next:"Adutthath",try:"Ekadesham shari! Veendum shramikku.",fin:"Ella levelum poorthiyaakki!",pr:["Kollaam!","Super!","Adipoli!"],foot:"Orumichu ennu, oro shramathinum kaiyadikku! 👏",
+q0:"Ethra? Cherunna sankhya thodu.",q1:"{n} ulla petti kandethu.",q2:"Athe ennamulla petti kandethu.",q3:"Ethaanu athupole irikkunnath?",
+h1:"{a}-il thudangu. Viralukal kondu {b} munnottu ennu.",h2:"{a}-il thudangu. Viralukal kondu {b} pinnottu ennu.",h3:"Aadyam 10 aakku: {a} + {x} = 10. Pinne {y} koodi kootu.",h4:"Patthukal: {p}. Onnukal: {q}. Pinne randum kootticherkku.",h5:"Ghattam 1: {p}. Ghattam 2: ninte utharathodu {q} cheyyu.",h6:"Pinnottu chinthikku: {p} kandethu.",m0:"Oro chithravum thottu urakke ennu.",m1:"Oro pettiyileyum chithrangal ennu.",m2:"Aadyatthe koottam ennu, pinne oro pettiyum.",m3:"Niravum aakruthiyum nokku."},
+kn:{ask:"Yaava aata aadabeku?",add:"Koodisuvike",sub:"Kaleyuvike",match:"Hondisu & Enisu",lv:"Hantha",menu:"Menu",hint:"Suluhu",next:"Munde",try:"Swalpadalli tappitu! Matte prayatnisu.",fin:"Ellaa hanthagalannu mugisidde!",pr:["Bhesh!","Super!","Shabbaash!"],foot:"Ottige enisi, prati prayatnakkoo chappaale tatti! 👏",
+q0:"Eshtu? Honduva sankhyeyannu muttu.",q1:"{n} iruva pettigeyannu hudaku.",q2:"Ashte sankhye iruva pettigeyannu hudaku.",q3:"Yaavudu haageye ide?",
+h1:"{a} inda shuru maadu. Berallugalinda {b} mundakke enisu.",h2:"{a} inda shuru maadu. Berallugalinda {b} hindakke enisu.",h3:"Modalu 10 maadu: {a} + {x} = 10. Nantara innu {y} koodisu.",h4:"Hattugalu: {p}. Ondugalu: {q}. Nantara erannu serisu.",h5:"Hantha 1: {p}. Hantha 2: ninna uttarakke {q} maadu.",h6:"Himmukhavaagi yochisu: {p} kandu hidi.",m0:"Prati chitravannu mutti gattiyaagi enisu.",m1:"Prati pettigeyalli iruva chitragalannu enisu.",m2:"Modala gumpannu enisu, nantara prati pettigeyannu.",m3:"Banna mattu aakaara nodu."},
+bn:{ask:"Kon khela khelte chao?",add:"Jog",sub:"Biyog",match:"Melao o Gono",lv:"Level",menu:"Menu",hint:"Ingit",next:"Porer",try:"Prai hoyechhe! Abar chesta koro.",fin:"Tumi sob level shesh korechho!",pr:["Darun!","Super!","Shabash!"],foot:"Ekshathe gono ar protiti chestay hattali dao! 👏",
+q0:"Koyta? Mil thaka songkhyati chhoo.",q1:"{n} ache emon baksoti khojo.",q2:"Ek-i songkhya ache emon baksoti khojo.",q3:"Konta hubohu ek rokom?",
+h1:"{a} theke shuru koro. Angul diye {b} egiye gono.",h2:"{a} theke shuru koro. Angul diye {b} pichhiye gono.",h3:"Age 10 banao: {a} + {x} = 10. Tarpor aro {y} jog koro.",h4:"Doshok: {p}. Ekok: {q}. Tarpor duto miliye nao.",h5:"Dhap 1: {p}. Dhap 2: tomar uttorer sathe {q} koro.",h6:"Ulto kore bhabo: {p} ber koro.",m0:"Protiti chhobi chhuye jore gono.",m1:"Protiti baksher chhobigulo gono.",m2:"Prothom dolta gono, tarpor protiti bakso.",m3:"Rong ar akar dekho."},
+gu:{ask:"Tamare kai ramat ramvi chhe?",add:"Sarvalo",sub:"Baadbaaki",match:"Jodo ane Gano",lv:"Level",menu:"Menu",hint:"Sanket",next:"Aagal",try:"Lagbhag! Fari prayatna karo.",fin:"Tame badha level pura karya!",pr:["Shabaash!","Khub saras!","Vaah!"],foot:"Saathe gano ane darek prayatna par taali pado! 👏",
+q0:"Ketla chhe? Bandhbesta ank par tap karo.",q1:"{n} valu khanu shodho.",q2:"Etli j sankhyavalu khanu shodho.",q3:"Kayu bilkul sarkhu chhe?",
+h1:"{a} thi sharu karo. Aanglio thi {b} aagal gano.",h2:"{a} thi sharu karo. Aanglio thi {b} paachhal gano.",h3:"Pahela 10 banavo: {a} + {x} = 10. Pachhi {y} vadhu umero.",h4:"Dashka: {p}. Ekam: {q}. Pachhi bannene bhega karo.",h5:"Pagalu 1: {p}. Pagalu 2: tamara jawab sathe {q} karo.",h6:"Undhu vicharo: {p} shodho.",m0:"Darek chitrane ado ane motethi gano.",m1:"Darek khanama chitro gano.",m2:"Pehlu jutha gano, pachhi darek khanu gano.",m3:"Rang ane aakar juo."}
+};
+let lang='en';try{const x=localStorage.getItem('gt_lang');if(I[x])lang=x}catch(e){}
+let scr='native';try{if(localStorage.getItem('gt_scr')==='roman')scr='roman'}catch(e){}
+const T=k=>{const d=scr==='roman'&&R[lang]?R[lang]:I[lang];return d[k]!==undefined?d[k]:I.en[k]};
+const H=([k,o])=>T(k).replace(/\{(\w+)\}/g,(_,x)=>o[x]);
+const r=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const rep=(e,n)=>Array(n).fill(e).join('');
+const sh=a=>a.sort(()=>Math.random()-.5);
+const E=['\u{1F34E}','\u{1F96D}','\u{1FA81}','\u{1FA94}','\u{1F418}','\u{1F34C}','\u2B50','\u{1F404}'];
+const nopts=n=>{const s=new Set([n]);let g=0;while(s.size<4&&g++<80){const v=n+(n>12&&Math.random()<.4?(r(0,1)?10:-10):r(-3,3));if(v>=1&&v!==n)s.add(v)}return[...s].map(v=>({l:v,ok:v===n}))};
+const grp=(e,n)=>`<div class="grp">${rep(e,n)}</div>`;
+const mini=(e,n,ok)=>({g:1,ok,l:`<span style="display:flex;flex-wrap:wrap;justify-content:center;max-width:150px;font-size:1.3rem">${rep(e,n)}</span>`});
+const gens={
+add(L){const e=E[L%8];let a,b,c,q,h,st='',ans;
+ if(L<=10){a=r(1,5);b=r(1,L<6?3:5);c=a+b;st=grp(e,a)+'<div class="op">+</div>'+grp(e,b);h=['h1',{a,b}]}
+ else if(L<=20){a=r(6,12);b=r(3,Math.min(9,20-a));c=a+b;h=a<10&&b>10-a?['h3',{a,x:10-a,y:b-(10-a)}]:['h1',{a,b}]}
+ else if(L<=30){const ao=L<=25?r(1,8):r(2,9);a=r(1,4)*10+ao;b=L<=25?r(1,9-ao):r(10-ao,9);c=a+b;h=['h4',{p:a-ao,q:`${ao} + ${b}`}]}
+ else if(L<=40){const cy=L>35,ao=cy?r(2,9):r(0,8),bo=cy?r(10-ao,9):r(0,9-ao),at=r(1,4),bt=r(1,4);a=at*10+ao;b=bt*10+bo;c=a+b;h=['h4',{p:`${at*10} + ${bt*10}`,q:`${ao} + ${bo}`}]}
+ else{const k=L%3;
+  if(k===0){a=r(20,60);b=r(10,35);c=a+b;q=`${a} + ? = ${c}`;ans=b;h=['h6',{p:`${c} \u2212 ${a}`}]}
+  else if(k===1){a=r(5,25);b=r(5,25);const d=r(5,25);c=a+b+d;q=`${a} + ${b} + ${d} = ?`;h=['h5',{p:`${a} + ${b}`,q:`+ ${d}`}]}
+  else{a=r(40,88);b=r(11,99-a);c=a+b;const ao=a%10,bo=b%10;h=['h4',{p:`${a-ao} + ${b-bo}`,q:`${ao} + ${bo}`}]}}
+ return{q:q||`${a} + ${b} = ?`,stage:st,opts:nopts(ans!==undefined?ans:c),hint:h}},
+sub(L){const e=E[L%8];let a,b,c,q,h,st='',ans;
+ if(L<=10){a=r(3,10);b=r(1,Math.min(a-1,L<6?3:5));c=a-b;st=`<div class="grp">${rep(e,c)}<span style="opacity:.25">${rep(e,b)}</span></div>`;h=['h2',{a,b}]}
+ else if(L<=20){a=r(11,20);b=r(2,9);c=a-b;h=b>a-10?['h5',{p:`${a} \u2212 ${a-10}`,q:`\u2212 ${b-(a-10)}`}]:['h5',{p:`${a-10} \u2212 ${b}`,q:'+ 10'}]}
+ else if(L<=30){const bo=L>25,ao=bo?r(1,7):r(2,9);a=r(2,5)*10+ao;b=bo?r(ao+1,9):r(1,ao);c=a-b;h=bo?['h5',{p:`${a} \u2212 ${ao}`,q:`\u2212 ${b-ao}`}]:['h4',{p:a-ao,q:`${ao} \u2212 ${b}`}]}
+ else if(L<=40){const bw=L>35,ao=bw?r(0,8):r(2,9),bo=bw?r(ao+1,9):r(0,ao),at=r(3,9),bt=r(1,at-1);a=at*10+ao;b=bt*10+bo;c=a-b;h=bw?['h5',{p:`${a} \u2212 ${bt*10}`,q:`\u2212 ${bo}`}]:['h4',{p:`${at*10} \u2212 ${bt*10}`,q:`${ao} \u2212 ${bo}`}]}
+ else{const k=L%3;
+  if(k===0){a=r(30,90);c=r(5,a-10);b=a-c;q=`${a} \u2212 ? = ${c}`;ans=b;h=['h6',{p:`${a} \u2212 ${c}`}]}
+  else if(k===1){b=r(5,40);c=r(5,50);a=b+c;q=`? \u2212 ${b} = ${c}`;ans=a;h=['h6',{p:`${c} + ${b}`}]}
+  else{a=r(40,99);b=r(5,20);const d=r(5,20);c=a-b-d;q=`${a} \u2212 ${b} \u2212 ${d} = ?`;h=['h5',{p:`${a} \u2212 ${b}`,q:`\u2212 ${d}`}]}}
+ return{q:q||`${a} \u2212 ${b} = ?`,stage:st,opts:nopts(ans!==undefined?ans:c),hint:h}},
+match(L){const n=Math.min(12,2+Math.ceil(L/2)),t=r(0,3),e=E[r(0,7)],o2=()=>{const s=new Set();while(s.size<2){const v=n+r(-2,2);if(v>0&&v!==n)s.add(v)}return[...s]};
+ if(t===0)return{q:['q0',{}],stage:grp(e,n),opts:nopts(n),hint:['m0',{}]};
+ if(t===1)return{q:['q1',{n}],stage:`<div style="font-size:4rem;font-weight:800;color:var(--c)">${n}</div>`,opts:[mini(e,n,1),...o2().map(k=>mini(e,k,0))],hint:['m1',{}]};
+ if(t===2){const f=E[(E.indexOf(e)+r(1,7))%8];return{q:['q2',{}],stage:grp(e,n),opts:[mini(f,n,1),...o2().map(k=>mini(f,k,0))],hint:['m2',{}]}}
+ const F=[['\u{1F34E}','\u{1F34F}','\u{1F345}','\u{1F352}'],['\u{1F404}','\u{1F403}','\u{1F402}','\u{1F418}'],['\u2B50','\u{1F31F}','\u2728','\u{1F4AB}'],['\u{1FA81}','\u{1F388}','\u{1FA94}','\u{1F380}']][r(0,3)],tg=F[r(0,3)];
+ return{q:['q3',{}],stage:`<div style="font-size:4.5rem">${tg}</div>`,opts:F.map(x=>({l:x,ok:x===tg})),hint:['m3',{}]}}
+};
+const SP={en:['plus','minus','equals','what'],ta:['பிளஸ்','மைனஸ்','சமம்','என்ன'],te:['ప్లస్','మైనస్','సమానం','ఏమిటి'],ur:['جمع','منفی','برابر','کیا'],pa:['ਜੋੜ','ਘਟਾ','ਬਰਾਬਰ','ਕੀ'],ml:['പ്ലസ്','മൈനസ്','സമം','എന്ത്'],kn:['ಪ್ಲಸ್','ಮೈನಸ್','ಸಮ','ಏನು'],bn:['যোগ','বিয়োগ','সমান','কত'],gu:['વત્તા','ઓછા','બરાબર','શું']};
+const VC={en:'en-IN',ta:'ta-IN',te:'te-IN',ur:'ur-PK',pa:'pa-IN',ml:'ml-IN',kn:'kn-IN',bn:'bn-IN',gu:'gu-IN'};
+let nar=false;try{nar=localStorage.getItem('gt_nar')==='1'}catch(e){}
+const tn=k=>I[lang][k]!==undefined?I[lang][k]:I.en[k];
+const Hn=([k,o])=>tn(k).replace(/\{(\w+)\}/g,(_,x)=>o[x]);
+const ms=(t,q)=>{const w=SP[lang]||SP.en;t=t.replace(/\+/g,' '+w[0]+' ').replace(/\u2212/g,' '+w[1]+' ').replace(/=/g,' '+w[2]+' ');return q?t.replace(/\?/g,' '+w[3]+' '):t};
+function say(t){if(!nar||!t||!window.speechSynthesis)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t),c=VC[lang],vs=speechSynthesis.getVoices(),v=vs.find(x=>x.lang.replace('_','-').toLowerCase()===c.toLowerCase())||vs.find(x=>x.lang.toLowerCase().startsWith(lang));u.lang=c;if(v)u.voice=v;u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+const MS={add:[10,25,50],sub:[10,25,50],match:[5,10,20]},BD=['🥉','🥈','🏆'];
+const loadS=k=>{try{return JSON.parse(localStorage.getItem('gt_s_'+k))||{}}catch(e){return{}}};
+const saveS=(k,v)=>{try{localStorage.setItem('gt_s_'+k,JSON.stringify(v))}catch(e){}};
+function rewards(){document.querySelectorAll('[data-rw]').forEach(e=>{const k=e.dataset.rw,st=loadS(k),n=Object.keys(st).length;e.textContent='⭐ '+Object.values(st).reduce((a,b)=>a+b,0)+'  '+MS[k].map((m,i)=>n>=m?BD[i]:'').join('')})}
+function mount(el,key,total,gen){
+ let unl=1,L,cur,tries,done,hinted;try{unl=Math.min(total,+localStorage.getItem('gt_'+key)||1)}catch(e){}L=unl;
+ function draw(){
+  cur=gen(L);cur.opts=sh(cur.opts);tries=0;done=false;hinted=false;
+  el.innerHTML=`<p class="q" style="font-size:1.6rem;margin:0 0 6px">${T('lv')} ${L} <small data-rw="${key}" style="font-size:1rem;font-weight:600;opacity:.85"></small></p><p class="q">${typeof cur.q==='string'?cur.q:H(cur.q)}</p><div class="stage">${cur.stage||''}</div>
+  <div class="opts">${cur.opts.map((o,i)=>`<button data-i="${i}" class="${o.g?'og':''}">${o.l}</button>`).join('')}</div>
+  <div class="hint" hidden></div><div class="fb" role="status" aria-live="polite"></div>
+  <div class="foot"><button class="hb" style="font-size:1.1rem;min-height:48px;min-width:0;padding:4px 18px">\u{1F4A1} ${T('hint')}</button><button class="next">${T('next')} \u279C</button></div>`;
+  rewards();el.sayNow=()=>say(tn('lv')+' '+L+'. '+(typeof cur.q==='string'?ms(cur.q,1):Hn(cur.q)));if(el.closest('.view').classList.contains('on'))el.sayNow();const fb=el.querySelector('.fb'),hn=el.querySelector('.hint'),nx=el.querySelector('.next');
+  const showHint=()=>{hinted=true;hn.hidden=false;hn.textContent='\u{1F4A1} '+H(cur.hint);say(ms(Hn(cur.hint)))};
+  el.querySelector('.hb').onclick=showHint;
+  nx.onclick=()=>{L++;draw()};
+  el.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{if(done)return;
+   if(cur.opts[+b.dataset.i].ok){done=true;b.classList.add('ok');fb.className='fb good';
+    const pi=r(0,2),sc=tries===0&&!hinted?3:tries<=1?2:1,st=loadS(key),n0=Object.keys(st).length;st[L]=Math.max(st[L]||0,sc);saveS(key,st);const n1=Object.keys(st).length;let bd='';MS[key].forEach((m,i)=>{if(n0<m&&n1>=m)bd=BD[i]});
+    fb.textContent=T('pr')[pi]+' '+'\u2B50'.repeat(sc)+(bd?' \u{1F389}'+bd:'')+(L===total?' '+T('fin')+' \u{1F3C6}':'');rewards();
+    const pp=document.createElement('div');pp.className='pop';pp.setAttribute('aria-hidden','true');pp.textContent='\u2B50'.repeat(sc);el.appendChild(pp);setTimeout(()=>pp.remove(),1400);say(tn('pr')[pi]+(L===total?' '+tn('fin'):''));
+    if(L<total){if(L===unl){unl++;try{localStorage.setItem('gt_'+key,unl)}catch(e){}}nx.style.display='inline-block';nx.focus({preventScroll:true})}
+   }else{tries++;try{navigator.vibrate&&navigator.vibrate([70,50,70])}catch(e){}el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake');b.style.opacity=.4;fb.className='fb bad';fb.textContent=T('try');say(tn('try'));if(tries>=2)showHint()}});
+ }
+ draw();return draw;
+}
+const cfg={add:[50,gens.add],sub:[50,gens.sub],match:[20,gens.match]};
+const mounts=[...document.querySelectorAll('.play[data-k]')].map(el=>mount(el,el.dataset.k,...cfg[el.dataset.k]));
+const lbn=document.getElementById('lb'),lgl=document.getElementById('langs'),sbn=document.getElementById('sb'),scl=document.getElementById('scripts');
+function closeL(){lgl.hidden=true;scl.hidden=true;lbn.setAttribute('aria-expanded','false');sbn.setAttribute('aria-expanded','false')}
+lbn.onclick=e=>{e.stopPropagation();const o=lgl.hidden;closeL();lgl.hidden=!o;lbn.setAttribute('aria-expanded',String(o))};sbn.onclick=e=>{e.stopPropagation();const o=scl.hidden;closeL();scl.hidden=!o;sbn.setAttribute('aria-expanded',String(o))};
+addEventListener('click',e=>{if(!e.target.closest('.lang'))closeL()});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeL()});
+const nb=document.getElementById('nb'),nt=document.getElementById('nt');
+function nbUI(){nb.setAttribute('aria-pressed',String(nar));nb.textContent=nar?'🔊':'🔇'}
+function toast(t){nt.textContent=t;nt.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>nt.hidden=true,4500)}
+function chk(){setTimeout(()=>{const vs=window.speechSynthesis?speechSynthesis.getVoices():[];if(vs.length&&!vs.some(v=>v.lang.toLowerCase().startsWith(lang)))toast('No '+LN.find(x=>x[0]===lang)[2]+' voice found on this device, so it may sound different.')},600)}
+nb.onclick=()=>{if(!window.speechSynthesis){toast('Voice is not supported on this device.');return}
+ nar=!nar;try{localStorage.setItem('gt_nar',nar?'1':'0')}catch(e){}nbUI();
+ if(nar){say(tn('ask'));chk()}else speechSynthesis.cancel()};
+nbUI();
+function apply(){const ro=scr==='roman'&&lang!=='en';document.documentElement.lang=ro?lang+'-Latn':lang;document.documentElement.dir=lang==='ur'&&!ro?'rtl':'ltr';
+ document.querySelectorAll('[data-t]').forEach(e=>e.textContent=(e.dataset.t==='menu'?(lang==='ur'&&!ro?'\u2192 ':'\u2190 '):'')+T(e.dataset.t));
+ document.querySelectorAll('[data-n]').forEach(e=>e.textContent=`${T('lv')} 1\u2013${e.dataset.n}`);
+ const lg=document.getElementById('langs');lg.innerHTML=LN.map(([c,n,e])=>`<li><button lang="${c}" role="option" data-c="${c}" aria-selected="${c===lang}">${c==='en'?n:n+' · '+e}</button></li>`).join('');document.getElementById('ln').textContent=LN.find(x=>x[0]===lang)[2];
+ sbn.hidden=lang==='en';scl.innerHTML=[['native',LN.find(x=>x[0]===lang)[1]],['roman','Abc · English letters']].map(([v,t])=>`<li><button role="option" data-v="${v}" aria-selected="${v===scr}">${t}</button></li>`).join('');
+ scl.querySelectorAll('button').forEach(b=>b.onclick=()=>{scr=b.dataset.v;try{localStorage.setItem('gt_scr',scr)}catch(e){}closeL();apply();mounts.forEach(f=>f())});
+ lg.querySelectorAll('button').forEach(b=>b.onclick=()=>{lang=b.dataset.c;try{localStorage.setItem('gt_lang',lang)}catch(e){}closeL();apply();mounts.forEach(f=>f());say(tn('ask'));if(nar)chk()});rewards()}
+function route(){const n=(location.hash||'#home').slice(1),id='v-'+(document.getElementById('v-'+n)?n:'home');document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id===id));scrollTo(0,0);const pl=document.getElementById(id).querySelector('.play');if(pl&&pl.sayNow)pl.sayNow()}
+addEventListener('hashchange',route);apply();route();
+</script>
+</body>
+</html>
